@@ -2,7 +2,7 @@ import "./register.css"
 import React from 'react'
 import { useRef } from "react";
 import {axiosInstance} from "../../config";
-import {useHistory} from "react-router-dom"
+import {useHistory,Link} from "react-router-dom"
 
 export default function Register() {
     const username = useRef();
