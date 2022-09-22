@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const userRoute = require("./routes/users");
@@ -10,6 +11,8 @@ const postRoute = require("./routes/posts");
 const multer = require("multer")
 const path=require("path")
 dotenv.config();
+
+app.use(cors());
 
 mongoose.connect(process.env.MONGO_URL, () => {
   console.log("connected to mongodb");
@@ -41,16 +44,6 @@ app.post("/api/upload",upload.single("file"),(req,res)=>{
 app.use("/api/users", userRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/posts", postRoute);
-
-app.use(
-  express.static(path.join(__dirname, "/client/build"))
-);
-
-app.get("*", (req, res) => {
-  res.sendFile(
-    path.join(__dirname, "/client/build", "index.html")
-  );
-});
 
 app.listen(process.env.PORT || 8800, () => {
   console.log("Backend server is running");
